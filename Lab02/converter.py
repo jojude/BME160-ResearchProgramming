@@ -54,31 +54,24 @@ class Converter():
 		print("{0} = {1}".format(self.sequence,result))
 
 	def isNotAA(self):
-		for char in self.sequence:
-			if char.islower():
-				return False
+		if self.sequence in short_AA.keys():
+			return False
 		return True
 
 #translation functions
-	def getRNACodon(self):
-		return RNA_codon_table[self.sequence]
-
-	def getDNACodon(self):
-		return dnaCodonTable[self.sequence]
-
 	def getAA(self):
 		if(len(self.sequence) > 1):
-			return short_AA[self.sequence.upper()]
+			return short_AA.get(self.sequence.upper(), "Unknown")
 		else:
-			return long_AA[self.sequence]
+			return long_AA.get(self.sequence, "Unknown")
 
 #conversion function to print out correct translation
 	def convert(self):
 		if(len(self.sequence) > 1 and self.isNotAA()):
 			if("U" in self.sequence):
-				self.printOut(self.getRNACodon())
+				self.printOut(RNA_codon_table.get(self.sequence, "Unknown"))
 			else:
-				self.printOut(self.getDNACodon())
+				self.printOut(dnaCodonTable.get(self.sequence, "Unknown"))
 		else:
 			self.printOut(self.getAA())
 
